@@ -9,7 +9,7 @@
     android:accessibilityEventTypes="typeAllMask"
     android:accessibilityFeedbackType="feedbackAllMask"
     android:notificationTimeout="100"
-    android:accessibilityFlags=""
+    android:accessibilityFlags="flagReportViewIds"
     android:canRetrieveWindowContent="true"
-    android:packageNames="com.haomaiyi.fittingroom"
+    android:packageNames="com.youxiang.soyoungapp"
     />
