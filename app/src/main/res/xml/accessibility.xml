@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--作为accessibility启动的配置文件-->
+<!--android:accessibilityEventTypes 监听的类型-->
+<!--android:accessibilityFeedbackType 回调响应的类型-->
+<!--android:notificationTimeout 通知超时时间-->
+<!--android:canRetrieveWindowContent 可以检索窗口-->
+<!--android:packageNames 监听的包-->
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeAllMask"
+    android:accessibilityFeedbackType="feedbackAllMask"
+    android:notificationTimeout="100"
+    android:accessibilityFlags=""
+    android:canRetrieveWindowContent="true"
+    android:packageNames="com.haomaiyi.fittingroom"
+    />
