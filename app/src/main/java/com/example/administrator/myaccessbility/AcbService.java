@@ -155,7 +155,7 @@ public class AcbService extends AccessibilityService {
         AccessibilityNodeInfo nodeInfo = getRootInActiveWindow();
         if (nodeInfo != null) {
             LogE("获取窗口内容成功..正在解析");
-            handleSixth();
+            handleFirst(nodeInfo);
         } else {
             LogE("获取窗口内容失败");
         }
@@ -276,14 +276,19 @@ public class AcbService extends AccessibilityService {
      */
     private void handleSixth(){
         AccessibilityNodeInfo nodeInfo = getRootInActiveWindow();
-        String id = "com.youxiang.soyoungapp:id/comment_cnt";
+        String id = "com.youxiang.soyoungapp:id/img_ll";
         LogE("正在查找第一个评论按钮");
         List<AccessibilityNodeInfo> infos = nodeInfo.findAccessibilityNodeInfosByViewId(id);
         LogE("找到" + infos.size() + "个评论按钮");
         if (infos.size() > 0) {
-            infos.get(0).performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
-            threadSleep(2000);
-//            handleSecond();
+            AccessibilityNodeInfo nodeInfo1 = infos.get(0);
+            while (nodeInfo1!= null){
+                if (nodeInfo1.isScrollable()){
+                    nodeInfo1.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
+                    return;
+                }
+                nodeInfo1 = nodeInfo1.getParent();
+            }
         }
 
 //        try {
