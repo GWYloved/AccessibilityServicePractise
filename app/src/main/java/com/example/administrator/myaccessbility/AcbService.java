@@ -56,7 +56,8 @@ public class AcbService extends AccessibilityService {
         String eventText = "";
         if (AirButtonService.start && !start) {
             showToast("开始启动");
-            handler.post(startRunnable);
+            Log.e(TAG, "onAccessibilityEvent: ,」+开始" );
+            handler.postDelayed(startRunnable,5000);
             start = !start;
         } else if (!AirButtonService.start && start) {
             showToast("结束启动");
@@ -153,20 +154,52 @@ public class AcbService extends AccessibilityService {
     private void startMyJiaoben() {
         LogE("正在获取窗口内容...");
         AccessibilityNodeInfo nodeInfo = getRootInActiveWindow();
-        if (nodeInfo != null) {
-            LogE("获取窗口内容成功..正在解析");
-            handleFirst(nodeInfo);
-        } else {
-            LogE("获取窗口内容失败");
+        if (nodeInfo != null){
+            Log.e(TAG, "startMyJiaoben: begin start" );
+            scroll(nodeInfo);
         }
+//        if (nodeInfo != null) {
+//            LogE("获取窗口内容成功..正在解析");
+//            handleFirst(nodeInfo);
+//        } else {
+//            LogE("获取窗口内容失败");
+//        }
+
     }
 
     Runnable startRunnable = new Runnable() {
         @Override
         public void run() {
+            Log.e(TAG, "run: start" );
             startMyJiaoben();
+            handler.postDelayed(startRunnable,5000);
         }
     };
+
+    private void scroll(AccessibilityNodeInfo nodeInfo){
+//        AccessibilityNodeInfo nodeInfo1 = nodeInfo.findFocus(AccessibilityNodeInfo.FOCUS_ACCESSIBILITY);
+//        if (nodeInfo.isScrollable()){
+//            nodeInfo.performAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
+//        }else {
+//            Log.e(TAG, "scroll disabled");
+//            if (nodeInfo1 != null && nodeInfo1.isScrollable()){
+//                nodeInfo1.performAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
+//            }else {
+//                Log.e(TAG, "scroll: disabled for node1");
+//            }
+//        }
+
+        String id = "com.jm.video:id/list";
+        LogE("正在查找第一个评论按钮");
+        List<AccessibilityNodeInfo> infos = nodeInfo.findAccessibilityNodeInfosByViewId(id);
+        LogE("找到" + infos.size() + "个评论按钮");
+        if (infos.size() > 0) {
+//            infos.get(0).performAction(AccessibilityNodeInfo.ACTION_CLICK);
+            infos.get(0).performAction(GESTURE_SWIPE_UP);
+            threadSleep(2000);
+//            handleSecond();
+        }
+    }
 
     /**
      * 处理第一个页面的评论按钮。id是com.youxiang.soyoungapp:id/comment_cnt
@@ -174,14 +207,15 @@ public class AcbService extends AccessibilityService {
      * @param nodeInfo
      */
     private void handleFirst(AccessibilityNodeInfo nodeInfo) {
-        String id = "com.youxiang.soyoungapp:id/comment_cnt";
+        String id = "com.jm.video:id/mmViewPager";
         LogE("正在查找第一个评论按钮");
         List<AccessibilityNodeInfo> infos = nodeInfo.findAccessibilityNodeInfosByViewId(id);
         LogE("找到" + infos.size() + "个评论按钮");
         if (infos.size() > 0) {
             infos.get(0).performAction(AccessibilityNodeInfo.ACTION_CLICK);
+            infos.get(0).performAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
             threadSleep(2000);
-            handleSecond();
+//            handleSecond();
         }
     }
 
